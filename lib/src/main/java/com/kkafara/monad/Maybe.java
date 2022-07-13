@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 public class Maybe<T> {
@@ -42,6 +43,14 @@ public class Maybe<T> {
   }
 
   @NotNull
+  public <R> Maybe<R> transformNotNull(Function<T, R> f) {
+    if (value == null) {
+      return Maybe.wrap(null);
+    }
+    return new Maybe<>(f.apply(value));
+  }
+
+  @NotNull
   public Maybe<T> transformInPlace(Function<T, T> f) {
     value = f.apply(value);
     return this;
@@ -49,10 +58,10 @@ public class Maybe<T> {
 
   @NotNull
   public Maybe<T> transformNotNullInPlace(Function<T, T> f) {
-    if (value == null) {
-      return this;
+    if (value != null) {
+      value = f.apply(value);
     }
-    return transformInPlace(f);
+    return this;
   }
 
   @NotNull
