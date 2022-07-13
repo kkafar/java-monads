@@ -14,6 +14,3 @@ build
 # all files marked explicitly as local
 *local.*
 
-# local environment
-.envrc
-
