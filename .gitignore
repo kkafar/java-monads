@@ -11,6 +11,9 @@ build
 # OS specific
 .DS_Store
 
+# all files marked explicitly as local
+*local.*
+
 # local environment
 .envrc
 
