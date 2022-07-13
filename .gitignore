@@ -10,3 +10,7 @@ build
 
 # OS specific
 .DS_Store
+
+# local environment
+.envrc
+
