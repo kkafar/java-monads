@@ -5,6 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public class Maybe<T> {
   @Nullable
@@ -30,6 +32,11 @@ public class Maybe<T> {
   }
 
   @NotNull
+  public Result<T, T> unwrapToResultWithPredicate(Predicate<T> pred) {
+    return pred.test(value) ? Result.ok(value) : Result.err(value);
+  }
+
+  @NotNull
   public <R> Maybe<R> transform(Function<T, R> f) {
     return new Maybe<>(f.apply(value));
   }
@@ -37,6 +44,22 @@ public class Maybe<T> {
   @NotNull
   public Maybe<T> transformInPlace(Function<T, T> f) {
     value = f.apply(value);
+    return this;
+  }
+
+  @NotNull
+  public Maybe<T> defaultValueIfNullInPlace(@Nullable T defaultValue) {
+    if (value == null) {
+      value = defaultValue;
+    }
+    return this;
+  }
+
+  @NotNull
+  public Maybe<T> ifFailureInPlace(Predicate<T> pred, UnaryOperator<T> f) {
+    if (pred.test(value)) {
+      return Maybe.wrap(f.apply(value));
+    }
     return this;
   }
 }
