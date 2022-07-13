@@ -1,6 +1,6 @@
 package com.kkafara.monad;
 
-import com.kkafara.rt.Result;
+import com.kkafara.monad.Result;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

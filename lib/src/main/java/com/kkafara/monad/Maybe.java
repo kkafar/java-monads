@@ -1,12 +1,10 @@
 package com.kkafara.monad;
 
-import com.kkafara.rt.Result;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 public class Maybe<T> {
