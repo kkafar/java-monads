@@ -1,5 +1,6 @@
 package com.kkafara.monad;
 
+import com.kkafara.rt.Result;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -51,6 +52,34 @@ public class MaybeTest {
 
   @Test
   public void transformInPlaceNonNullValue() {
+    Integer someValue = 5;
+    Integer expectedResult = 31;
+    Maybe<Integer> monad = Maybe.wrap(someValue);
 
+    monad
+        .transformInPlace(value -> value * 2)
+        .transformInPlace(value -> value * 3)
+        .transformInPlace(value -> value + 1);
+
+    assertEquals(expectedResult, monad.unwrap());
+  }
+
+  @Test
+  public void transformAndUnwrapToResult() {
+    Integer someValue = 5;
+    String expectedResult = "31".repeat(2);
+    Maybe<Integer> monad = Maybe.wrap(someValue);
+
+    Result<String, Void> result = monad
+        .transformInPlace(value -> value * 2)
+        .transformInPlace(value -> value * 3)
+        .transformInPlace(value -> value + 1)
+        .transform(Object::toString)
+        .transformInPlace(value -> value.repeat(2))
+        .unwrapToResult();
+
+    assertTrue(result.isOk());
+    assertFalse(result.isOkValueNull());
+    assertEquals(expectedResult, result.getOk());
   }
 }
