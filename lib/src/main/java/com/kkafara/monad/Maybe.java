@@ -48,6 +48,14 @@ public class Maybe<T> {
   }
 
   @NotNull
+  public Maybe<T> transformNotNullInPlace(Function<T, T> f) {
+    if (value == null) {
+      return this;
+    }
+    return transformInPlace(f);
+  }
+
+  @NotNull
   public Maybe<T> defaultValueIfNullInPlace(@Nullable T defaultValue) {
     if (value == null) {
       value = defaultValue;
